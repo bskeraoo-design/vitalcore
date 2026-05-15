@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VitalCore — Health Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     LOGIN SCREEN
+════════════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-bg">
+    <div class="login-orb orb1"></div>
+    <div class="login-orb orb2"></div>
+    <div class="login-orb orb3"></div>
+  </div>
+
+  <div class="login-card">
+    <!-- Brand -->
+    <div class="login-brand">
+      <div class="login-logo">V</div>
+      <h1 class="login-title">VitalCore</h1>
+      <p class="login-sub">Health Intelligence Platform</p>
+    </div>
+
+    <!-- Google OAuth -->
+    <div id="oauth-section">
+      <button class="google-btn" onclick="loginWithGoogle()">
+        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0124 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 01-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
+        Continue with Google
+      </button>
+
+      <div class="divider"><span>or</span></div>
+
+      <!-- Email Login -->
+      <div class="email-form">
+        <div class="input-wrap">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+          <input id="email-input" type="email" placeholder="Email address" class="email-input"/>
+        </div>
+        <div class="input-wrap" id="pass-wrap" style="display:none">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <input id="pass-input" type="password" placeholder="Password" class="email-input"/>
+        </div>
+        <button class="email-btn" id="email-btn" onclick="loginWithEmail()">Continue with Email</button>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="login-loading" class="hidden">
+      <div class="login-spinner"></div>
+      <p id="loading-text">Verifying identity...</p>
+    </div>
+
+    <!-- Security Badge -->
+    <div class="security-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      End-to-End Encryption Active
+    </div>
+
+    <p class="login-terms">By continuing, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     APP SHELL (shown after login)
+════════════════════════════════════════ -->
+<div id="app" class="hidden">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">V</div>
+      <span class="logo-text">VitalCore</span>
+    </div>
+
+    <nav class="nav">
+      <a href="#" class="nav-item active" data-screen="today">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Today</span>
+      </a>
+      <a href="#" class="nav-item" data-screen="recovery">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span>Recovery</span>
+      </a>
+      <a href="#" class="nav-item" data-screen="strain">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <span>Strain</span>
+      </a>
+      <a href="#" class="nav-item" data-screen="sleep">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <span>Sleep</span>
+      </a>
+      <a href="#" class="nav-item" data-screen="coach">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <span>Coach</span>
+      </a>
+      <a href="#" class="nav-item" data-screen="profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Profile</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar" id="sidebar-avatar">?</div>
+        <div class="user-info">
+          <div class="user-name" id="sidebar-name">Guest</div>
+          <div class="user-plan">Pro Plan</div>
+        </div>
+        <div class="user-status green-dot"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- ══ TODAY ══ -->
+    <section class="screen active" id="screen-today">
+      <header class="page-header">
+        <div>
+          <h1 class="page-title">Today</h1>
+          <p class="page-sub" id="today-date">Thursday, May 15, 2026</p>
+        </div>
+        <div class="header-actions">
+          <div class="status-badge" id="status-badge">
+            <span class="badge-dot"></span>
+            <span id="status-text">AWAITING SYNC</span>
+          </div>
+          <button class="icon-btn" id="sim-toggle-btn" title="Open Simulator">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Triple Rings -->
+      <div class="ring-row">
+        <div class="ring-card amber-card" data-screen="strain">
+          <div class="ring-wrap">
+            <svg class="ring-svg" viewBox="0 0 120 120">
+              <circle class="track" cx="60" cy="60" r="50"/>
+              <circle class="fill amber-stroke" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16" id="ring-strain"/>
+            </svg>
+            <div class="ring-inner">
+              <span class="ring-val amber-text" id="val-strain">--</span>
+              <span class="ring-lbl">Strain</span>
+            </div>
+          </div>
+          <div class="ring-meta">
+            <div class="meta-row"><span class="meta-label">Load</span><span class="meta-val" id="strain-label">No data</span></div>
+            <div class="meta-row"><span class="meta-label">Target</span><span class="meta-val amber-text">50–70%</span></div>
+          </div>
+        </div>
+
+        <div class="ring-card green-card featured" data-screen="recovery">
+          <div class="ring-wrap">
+            <svg class="ring-svg" viewBox="0 0 120 120">
+              <circle class="track" cx="60" cy="60" r="50"/>
+              <circle class="fill green-stroke" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16" id="ring-recovery"/>
+            </svg>
+            <div class="ring-inner">
+              <span class="ring-val green-text" id="val-recovery">--</span>
+              <span class="ring-lbl">Recovery</span>
+            </div>
+          </div>
+          <div class="ring-meta">
+            <div class="meta-row"><span class="meta-label">HRV</span><span class="meta-val green-text" id="meta-hrv">-- ms</span></div>
+            <div class="meta-row"><span class="meta-label">Resting HR</span><span class="meta-val" id="meta-rhr">-- bpm</span></div>
+          </div>
+        </div>
+
+        <div class="ring-card blue-card" data-screen="sleep">
+          <div class="ring-wrap">
+            <svg class="ring-svg" viewBox="0 0 120 120">
+              <circle class="track" cx="60" cy="60" r="50"/>
+              <circle class="fill blue-stroke" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16" id="ring-sleep"/>
+            </svg>
+            <div class="ring-inner">
+              <span class="ring-val blue-text" id="val-sleep">--</span>
+              <span class="ring-lbl">Sleep</span>
+            </div>
+          </div>
+          <div class="ring-meta">
+            <div class="meta-row"><span class="meta-label">Duration</span><span class="meta-val" id="meta-sleep-dur">-- h</span></div>
+            <div class="meta-row"><span class="meta-label">Deep+REM</span><span class="meta-val blue-text" id="meta-deep-rem">--%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Grid -->
+      <div class="bottom-grid">
+
+        <!-- Coaching -->
+        <div class="panel coaching-panel">
+          <div class="panel-header">
+            <h3>AI Coaching</h3>
+            <span class="chip" id="coaching-chip">Waiting</span>
+          </div>
+          <p class="coaching-text" id="coaching-text">กำลังรอข้อมูลจากอุปกรณ์ของคุณ... กดปุ่ม <strong style="color:var(--green)">Simulate Sync</strong> ที่แผง Simulator เพื่อเริ่มจำลองข้อมูล Real-time</p>
+          <div class="coaching-tags" id="coaching-tags"></div>
+        </div>
+
+        <!-- Metrics -->
+        <div class="panel">
+          <div class="panel-header"><h3>Stress & Energy</h3></div>
+          <div class="stress-grid">
+            <div class="stress-item"><div class="stress-num red-text" id="val-stress-peak">--</div><div class="stress-desc">Peak</div></div>
+            <div class="stress-item"><div class="stress-num green-text" id="val-stress-low">--</div><div class="stress-desc">Low</div></div>
+            <div class="stress-item"><div class="stress-num amber-text" id="val-stress-avg">--</div><div class="stress-desc">Avg</div></div>
+          </div>
+          <div class="bar-label-row"><span>Stress Level</span><span class="amber-text" id="pct-stress">0%</span></div>
+          <div class="bar-track"><div class="bar-fill amber-bar" id="bar-stress" style="width:0%"></div></div>
+          <div class="bar-label-row" style="margin-top:10px"><span>⚡ Energy</span><span class="green-text" id="pct-energy">0%</span></div>
+          <div class="bar-track"><div class="bar-fill green-bar" id="bar-energy" style="width:0%"></div></div>
+        </div>
+
+        <!-- Health Monitor -->
+        <div class="panel metrics-panel">
+          <div class="panel-header"><h3>Health Monitor</h3></div>
+          <div class="metrics-grid">
+            <div class="metric-item">
+              <div class="metric-icon green-bg">📈</div>
+              <div class="metric-val green-text" id="metric-hrv">-- ms</div>
+              <div class="metric-key">HRV</div>
+              <div class="metric-trend flat" id="trend-hrv">— Awaiting</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-icon red-bg">❤️</div>
+              <div class="metric-val red-text" id="metric-hr">-- bpm</div>
+              <div class="metric-key">Heart Rate</div>
+              <div class="metric-trend flat" id="trend-hr">— Awaiting</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-icon blue-bg">🫁</div>
+              <div class="metric-val blue-text" id="metric-spo2">--%</div>
+              <div class="metric-key">SpO₂</div>
+              <div class="metric-trend flat" id="trend-spo2">— Awaiting</div>
+            </div>
+            <div class="metric-item">
+              <div class="metric-icon purple-bg">🩺</div>
+              <div class="metric-val purple-text" id="metric-bp">--/--</div>
+              <div class="metric-key">Blood Pressure</div>
+              <div class="metric-trend flat" id="trend-bp">— Awaiting</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daily Mission -->
+        <div class="panel mission-panel">
+          <div class="panel-header">
+            <h3>Daily Mission 🎯</h3>
+            <span class="mission-progress-text" id="mission-progress-text">0/6</span>
+          </div>
+          <div class="mission-bar-wrap">
+            <div class="mission-bar-track"><div class="mission-bar-fill" id="mission-bar" style="width:0%"></div></div>
+          </div>
+          <div class="mission-list" id="mission-list">
+            <!-- injected by JS -->
+          </div>
+        </div>
+
+        <!-- Regent Hook -->
+        <div class="panel ergo-panel" id="ergo-alert">
+          <div class="ergo-inner">
+            <div class="ergo-icon-wrap">🪑</div>
+            <div class="ergo-body">
+              <div class="ergo-title">Regent Hook — Posture Alert</div>
+              <div class="ergo-sub">นั่งมา <strong>2h 30m</strong> ต่อเนื่อง เสี่ยงปวดหลัง</div>
+            </div>
+            <button class="ergo-btn" onclick="dismissAlert()">ลุกเดิน 5 นาที</button>
+          </div>
+          <div class="ergo-timer">
+            <div class="timer-bar"><div class="timer-fill" id="timer-fill"></div></div>
+            <span class="timer-label">ควรลุกทุก 45 นาที</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══ RECOVERY ══ -->
+    <section class="screen" id="screen-recovery">
+      <header class="page-header">
+        <div><h1 class="page-title">Recovery</h1><p class="page-sub">May 15, 2026</p></div>
+        <button class="text-btn">View Insights →</button>
+      </header>
+      <div class="detail-layout">
+        <div class="detail-left">
+          <div class="big-ring-wrap">
+            <svg class="big-ring-svg" viewBox="0 0 200 200">
+              <circle class="track" cx="100" cy="100" r="85" style="stroke-width:14"/>
+              <circle class="fill green-stroke" cx="100" cy="100" r="85" stroke-dasharray="534" stroke-dashoffset="534" id="big-ring-recovery" style="stroke-width:14"/>
+            </svg>
+            <div class="big-ring-inner">
+              <span class="big-ring-val green-text" id="big-val-recovery">--</span>
+              <span class="big-ring-lbl">Recovered</span>
+            </div>
+          </div>
+          <div class="detail-pills">
+            <div class="detail-pill"><div class="dp-icon">📊</div><div class="dp-val green-text" id="pill-hrv">-- ms</div><div class="dp-key">Resting HRV</div></div>
+            <div class="detail-pill"><div class="dp-icon">❤️</div><div class="dp-val red-text" id="pill-rhr">-- bpm</div><div class="dp-key">Resting HR</div></div>
+            <div class="detail-pill"><div class="dp-icon">🫁</div><div class="dp-val blue-text" id="pill-spo2">--%</div><div class="dp-key">SpO₂</div></div>
+            <div class="detail-pill"><div class="dp-icon">🌡️</div><div class="dp-val">36.4°C</div><div class="dp-key">Skin Temp</div></div>
+          </div>
+        </div>
+        <div class="detail-right">
+          <div class="panel">
+            <div class="panel-header"><h3>Coaching</h3></div>
+            <p class="coaching-text" id="recovery-coaching-text" style="margin-bottom:0">กำลังรอข้อมูล...</p>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <h3>HRV Trend — 7 Days</h3>
+              <div class="tab-group">
+                <button class="tab active" data-range="7D">7D</button>
+                <button class="tab" data-range="30D">30D</button>
+                <button class="tab" data-range="90D">90D</button>
+              </div>
+            </div>
+            <div class="chart-area">
+              <div class="bars" id="hrv-chart"></div>
+              <div class="chart-labels" id="hrv-labels"></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><h3>Timeline</h3></div>
+            <div class="timeline">
+              <div class="tl-item">
+                <div class="tl-icon blue-bg">😴</div>
+                <div class="tl-content"><div class="tl-title">Primary Sleep</div><div class="tl-sub">5/15 · 1:08 AM – 7:20 AM</div></div>
+                <span class="tl-arr">›</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ STRAIN ══ -->
+    <section class="screen" id="screen-strain">
+      <header class="page-header">
+        <div><h1 class="page-title">Strain</h1><p class="page-sub">May 15, 2026</p></div>
+      </header>
+      <div class="detail-layout">
+        <div class="detail-left">
+          <div class="big-ring-wrap">
+            <svg class="big-ring-svg" viewBox="0 0 200 200">
+              <circle class="track" cx="100" cy="100" r="85" style="stroke-width:14"/>
+              <circle class="fill amber-stroke" cx="100" cy="100" r="85" stroke-dasharray="534" stroke-dashoffset="534" id="big-ring-strain" style="stroke-width:14"/>
+            </svg>
+            <div class="big-ring-inner">
+              <span class="big-ring-val amber-text" id="big-val-strain">--</span>
+              <span class="big-ring-lbl">Strain</span>
+            </div>
+          </div>
+          <div class="detail-pills">
+            <div class="detail-pill"><div class="dp-icon">⏱️</div><div class="dp-val">2h 14m</div><div class="dp-key">Duration</div></div>
+            <div class="detail-pill"><div class="dp-icon">🔥</div><div class="dp-val amber-text" id="pill-kj">-- kJ</div><div class="dp-key">Energy</div></div>
+            <div class="detail-pill"><div class="dp-icon">💓</div><div class="dp-val red-text" id="pill-maxhr">-- bpm</div><div class="dp-key">Max HR</div></div>
+            <div class="detail-pill"><div class="dp-icon">📍</div><div class="dp-val">0</div><div class="dp-key">Activities</div></div>
+          </div>
+        </div>
+        <div class="detail-right">
+          <div class="panel">
+            <div class="panel-header"><h3>Coaching</h3></div>
+            <p class="coaching-text" id="strain-coaching-text" style="margin-bottom:0">กำลังรอข้อมูล...</p>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><h3>Heart Rate Zones</h3></div>
+            <div class="zone-list">
+              <div class="zone-item"><span class="zone-name">Zone 1 — Warm-up</span><div class="bar-track flex-bar"><div class="bar-fill" id="zone1" style="width:0%;background:var(--blue)" data-w="55"></div></div><span class="zone-time">38m</span></div>
+              <div class="zone-item"><span class="zone-name">Zone 2 — Fat Burn</span><div class="bar-track flex-bar"><div class="bar-fill" id="zone2" style="width:0%;background:var(--green)" data-w="75"></div></div><span class="zone-time">52m</span></div>
+              <div class="zone-item"><span class="zone-name">Zone 3 — Aerobic</span><div class="bar-track flex-bar"><div class="bar-fill" id="zone3" style="width:0%;background:var(--amber)" data-w="40"></div></div><span class="zone-time">28m</span></div>
+              <div class="zone-item"><span class="zone-name">Zone 4 — Anaerobic</span><div class="bar-track flex-bar"><div class="bar-fill" id="zone4" style="width:0%;background:var(--red)" data-w="15"></div></div><span class="zone-time">10m</span></div>
+              <div class="zone-item"><span class="zone-name">Zone 5 — Max</span><div class="bar-track flex-bar"><div class="bar-fill" id="zone5" style="width:0%;background:var(--red)" data-w="8"></div></div><span class="zone-time">6m</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SLEEP ══ -->
+    <section class="screen" id="screen-sleep">
+      <header class="page-header">
+        <div><h1 class="page-title">Sleep</h1><p class="page-sub">May 15, 2026</p></div>
+      </header>
+      <div class="detail-layout">
+        <div class="detail-left">
+          <div class="big-ring-wrap">
+            <svg class="big-ring-svg" viewBox="0 0 200 200">
+              <circle class="track" cx="100" cy="100" r="85" style="stroke-width:14"/>
+              <circle class="fill blue-stroke" cx="100" cy="100" r="85" stroke-dasharray="534" stroke-dashoffset="534" id="big-ring-sleep" style="stroke-width:14"/>
+            </svg>
+            <div class="big-ring-inner">
+              <span class="big-ring-val blue-text" id="big-val-sleep">--</span>
+              <span class="big-ring-lbl">Sleep Score</span>
+            </div>
+          </div>
+          <div class="detail-pills">
+            <div class="detail-pill"><div class="dp-icon">🌙</div><div class="dp-val blue-text" id="pill-sleep-dur">-- h</div><div class="dp-key">Total Sleep</div></div>
+            <div class="detail-pill"><div class="dp-icon">🔁</div><div class="dp-val">4</div><div class="dp-key">Cycles</div></div>
+            <div class="detail-pill"><div class="dp-icon">⬇️</div><div class="dp-val" id="pill-deep">--%</div><div class="dp-key">Deep Sleep</div></div>
+            <div class="detail-pill"><div class="dp-icon">🧠</div><div class="dp-val purple-text" id="pill-rem">--%</div><div class="dp-key">REM</div></div>
+          </div>
+        </div>
+        <div class="detail-right">
+          <div class="panel">
+            <div class="panel-header"><h3>Sleep Stages</h3></div>
+            <div class="stage-time-row"><span>1:08 AM</span><span>7:20 AM</span></div>
+            <div class="stage-bar">
+              <div style="width:8%;background:#3A3A5C"></div>
+              <div style="width:18%;background:var(--purple)"></div>
+              <div style="width:14%;background:#1A4080"></div>
+              <div style="width:12%;background:var(--blue)"></div>
+              <div style="width:16%;background:var(--purple)"></div>
+              <div style="width:10%;background:#1A4080"></div>
+              <div style="width:14%;background:var(--blue)"></div>
+              <div style="width:8%;background:#3A3A5C"></div>
+            </div>
+            <div class="stage-legend">
+              <span class="legend-item"><i style="background:#3A3A5C"></i>Awake</span>
+              <span class="legend-item"><i style="background:var(--blue)"></i>Light</span>
+              <span class="legend-item"><i style="background:#1A4080"></i>Deep</span>
+              <span class="legend-item"><i style="background:var(--purple)"></i>REM</span>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><h3>Sleep Coach</h3></div>
+            <p class="coaching-text" id="sleep-coaching-text" style="margin-bottom:12px">กำลังรอข้อมูล...</p>
+            <div class="coaching-tags" id="sleep-tags"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ COACH — Coming Soon ══ -->
+    <section class="screen" id="screen-coach">
+      <div class="coming-soon-wrap">
+        <div class="cs-glow"></div>
+        <div class="cs-icon">🤖</div>
+        <h2 class="cs-title">Bewell AI Coach</h2>
+        <p class="cs-sub">ระบบโค้ชอัจฉริยะที่วิเคราะห์พฤติกรรมของคุณเชิงลึก กำลังอยู่ในระหว่างการพัฒนา</p>
+        <div class="cs-features">
+          <div class="cs-feat"><div class="cs-feat-icon amber-bg">🧠</div><div><div class="cs-feat-title">Behavioral Analysis</div><div class="cs-feat-sub">วิเคราะห์รูปแบบพฤติกรรม 90 วัน</div></div></div>
+          <div class="cs-feat"><div class="cs-feat-icon blue-bg">💬</div><div><div class="cs-feat-title">AI Conversation</div><div class="cs-feat-sub">ถามตอบกับ Coach ได้ตลอด 24/7</div></div></div>
+          <div class="cs-feat"><div class="cs-feat-icon green-bg">📊</div><div><div class="cs-feat-title">Weekly Deep Report</div><div class="cs-feat-sub">รายงานส่งตรงถึงผู้เชี่ยวชาญ</div></div></div>
+          <div class="cs-feat"><div class="cs-feat-icon purple-bg">🎯</div><div><div class="cs-feat-title">Goal Tracking</div><div class="cs-feat-sub">ติดตามเป้าหมายสุขภาพระยะยาว</div></div></div>
+        </div>
+        <button class="cs-notify-btn" onclick="notifyMe(this)">🔔 แจ้งเตือนเมื่อพร้อมใช้งาน</button>
+        <div class="cs-badge">Coming Soon — Q3 2026</div>
+      </div>
+    </section>
+
+    <!-- ══ PROFILE ══ -->
+    <section class="screen" id="screen-profile">
+      <header class="page-header">
+        <div><h1 class="page-title">Profile</h1><p class="page-sub">Account & Settings</p></div>
+        <button class="logout-btn" onclick="logout()">Sign Out</button>
+      </header>
+
+      <div class="profile-layout">
+        <!-- User Card -->
+        <div class="profile-card panel">
+          <div class="profile-avatar-wrap">
+            <div class="profile-avatar" id="profile-avatar">?</div>
+            <div class="profile-edit-btn">✏️</div>
+          </div>
+          <div class="profile-name" id="profile-name">Guest User</div>
+          <div class="profile-email" id="profile-email">--</div>
+          <div class="profile-plan-badge">⚡ Pro Plan</div>
+          <div class="profile-stats">
+            <div class="ps-item"><div class="ps-val green-text">4</div><div class="ps-key">Day Streak</div></div>
+            <div class="ps-item"><div class="ps-val amber-text">71%</div><div class="ps-key">Avg Recovery</div></div>
+            <div class="ps-item"><div class="ps-val blue-text">23</div><div class="ps-key">Days Active</div></div>
+          </div>
+        </div>
+
+        <!-- Settings Sections -->
+        <div class="profile-sections">
+          <div class="panel">
+            <div class="panel-header"><h3>Connected Devices</h3><span class="coming-soon-chip">Coming Soon</span></div>
+            <div class="device-list">
+              <div class="device-item disabled"><div class="device-icon">⌚</div><div><div class="device-name">Apple Watch</div><div class="device-status muted">Not connected</div></div><div class="device-btn">Connect</div></div>
+              <div class="device-item disabled"><div class="device-icon">💍</div><div><div class="device-name">Oura Ring</div><div class="device-status muted">Not connected</div></div><div class="device-btn">Connect</div></div>
+              <div class="device-item disabled"><div class="device-icon">🏃</div><div><div class="device-name">Garmin</div><div class="device-status muted">Not connected</div></div><div class="device-btn">Connect</div></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header"><h3>Health Goals</h3></div>
+            <div class="goal-list">
+              <div class="goal-item">
+                <span class="goal-label">Daily Sleep Target</span>
+                <span class="goal-val blue-text">8 hours</span>
+              </div>
+              <div class="goal-item">
+                <span class="goal-label">Recovery Target</span>
+                <span class="goal-val green-text">≥ 67%</span>
+              </div>
+              <div class="goal-item">
+                <span class="goal-label">Daily Steps</span>
+                <span class="goal-val amber-text">10,000</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header"><h3>Notifications</h3><span class="coming-soon-chip">Coming Soon</span></div>
+            <div class="notif-list">
+              <div class="notif-item"><div><div class="notif-title">Regent Hook Alerts</div><div class="notif-sub">แจ้งเตือนเมื่อนั่งนานเกิน 45 นาที</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+              <div class="notif-item"><div><div class="notif-title">Morning Brief</div><div class="notif-sub">สรุป Recovery ทุกเช้า 7:00 AM</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+              <div class="notif-item"><div><div class="notif-title">Weekly Report</div><div class="notif-sub">ทุกวันจันทร์ 8:00 AM</div></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header"><h3>Security & Privacy</h3></div>
+            <div class="security-list">
+              <div class="security-item">
+                <div class="sec-icon green-bg">🔒</div>
+                <div><div class="sec-title">End-to-End Encryption</div><div class="sec-sub">ข้อมูลสุขภาพถูกเข้ารหัส AES-256</div></div>
+                <div class="sec-badge active-badge">Active</div>
+              </div>
+              <div class="security-item">
+                <div class="sec-icon blue-bg">🛡️</div>
+                <div><div class="sec-title">Two-Factor Auth</div><div class="sec-sub">TOTP backup verification</div></div>
+                <div class="sec-badge coming-soon-chip">Setup</div>
+              </div>
+              <div class="security-item">
+                <div class="sec-icon amber-bg">📋</div>
+                <div><div class="sec-title">Data Export</div><div class="sec-sub">ดาวน์โหลดข้อมูลสุขภาพทั้งหมด</div></div>
+                <div class="sec-badge coming-soon-chip">Coming Soon</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ════════════ SIMULATOR PANEL ════════════ -->
+  <div id="simulator-panel" class="sim-panel hidden">
+    <div class="sim-header">
+      <div class="sim-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Admin Simulator
+      </div>
+      <button class="sim-close" onclick="toggleSimulator()">✕</button>
+    </div>
+
+    <div class="sim-status" id="sim-status">
+      <div class="sim-dot idle"></div>
+      <span>Ready to Simulate</span>
+    </div>
+
+    <div class="sim-controls">
+      <div class="sim-row">
+        <label class="sim-label">Heart Rate <span id="disp-hr" class="sim-val red-text">72</span> bpm</label>
+        <input type="range" class="sim-slider" id="sl-hr" min="40" max="200" value="72" oninput="liveUpdate('hr',this.value)"/>
+      </div>
+      <div class="sim-row">
+        <label class="sim-label">SpO₂ <span id="disp-spo2" class="sim-val blue-text">98</span>%</label>
+        <input type="range" class="sim-slider" id="sl-spo2" min="85" max="100" value="98" oninput="liveUpdate('spo2',this.value)"/>
+      </div>
+      <div class="sim-row">
+        <label class="sim-label">HRV <span id="disp-hrv" class="sim-val green-text">107</span> ms</label>
+        <input type="range" class="sim-slider" id="sl-hrv" min="20" max="160" value="107" oninput="liveUpdate('hrv',this.value)"/>
+      </div>
+      <div class="sim-row">
+        <label class="sim-label">Recovery <span id="disp-recovery" class="sim-val green-text">64</span>%</label>
+        <input type="range" class="sim-slider" id="sl-recovery" min="0" max="100" value="64" oninput="liveUpdate('recovery',this.value)"/>
+      </div>
+      <div class="sim-row">
+        <label class="sim-label">Strain <span id="disp-strain" class="sim-val amber-text">14</span>%</label>
+        <input type="range" class="sim-slider" id="sl-strain" min="0" max="100" value="14" oninput="liveUpdate('strain',this.value)"/>
+      </div>
+      <div class="sim-row">
+        <label class="sim-label">Sleep Hours <span id="disp-sleep" class="sim-val blue-text">6.2</span> h</label>
+        <input type="range" class="sim-slider" id="sl-sleep" min="0" max="12" step="0.1" value="6.2" oninput="liveUpdate('sleep',this.value)"/>
+      </div>
+    </div>
+
+    <div class="sim-actions">
+      <button class="sim-sync-btn" id="sim-sync-btn" onclick="simulateSync()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+        Simulate Sync
+      </button>
+      <button class="sim-live-btn" id="sim-live-btn" onclick="toggleLive()">
+        <span id="live-label">▶ Live Mode</span>
+      </button>
+      <button class="sim-reset-btn" onclick="resetData()">Reset to Zero</button>
+    </div>
+
+    <div class="sim-log" id="sim-log">
+      <div class="log-entry">[ System ] Simulator initialized — adjust sliders and press Sync</div>
+    </div>
+  </div>
+
+</div><!-- /#app -->
+
+<!-- ════════════ ADD MODAL ════════════ -->
+<div id="add-modal" class="modal-overlay hidden" onclick="closeModalOutside(event)">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-title">Add Entry</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <!-- Choice Step -->
+    <div id="modal-choice">
+      <p style="font-size:13px;color:var(--muted2);margin-bottom:16px">เลือกประเภทข้อมูลที่ต้องการบันทึก</p>
+      <div class="modal-choices">
+        <button class="choice-btn" onclick="openForm('activity')">
+          <div class="choice-icon amber-bg">🏃</div>
+          <div class="choice-label">Log Activity</div>
+          <div class="choice-sub">บันทึกการออกกำลังกาย</div>
+        </button>
+        <button class="choice-btn" onclick="openForm('wellness')">
+          <div class="choice-icon green-bg">💊</div>
+          <div class="choice-label">Wellness Data</div>
+          <div class="choice-sub">กรอกข้อมูลสุขภาพด้วยตนเอง</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Activity Form -->
+    <div id="modal-activity" class="hidden">
+      <div class="form-group"><label>Activity Type</label>
+        <select class="form-input"><option>🏃 Running</option><option>🚴 Cycling</option><option>🏊 Swimming</option><option>💪 Weightlifting</option><option>🧘 Yoga</option><option>🚶 Walking</option></select>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Duration (min)</label><input type="number" class="form-input" placeholder="45" min="1" max="480"/></div>
+        <div class="form-group"><label>Intensity</label>
+          <select class="form-input"><option>Easy</option><option>Moderate</option><option>Hard</option><option>Max</option></select>
+        </div>
+      </div>
+      <div class="form-group"><label>Notes (optional)</label><textarea class="form-input" rows="2" placeholder="How did it feel?"></textarea></div>
+      <div class="modal-footer">
+        <button class="modal-back-btn" onclick="backToChoice()">← Back</button>
+        <button class="modal-save-btn" onclick="saveEntry('activity')">Save Activity</button>
+      </div>
+    </div>
+
+    <!-- Wellness Form -->
+    <div id="modal-wellness" class="hidden">
+      <div class="form-row">
+        <div class="form-group"><label>Heart Rate (bpm)</label><input type="number" id="wf-hr" class="form-input" placeholder="72" min="30" max="220"/></div>
+        <div class="form-group"><label>SpO₂ (%)</label><input type="number" id="wf-spo2" class="form-input" placeholder="98" min="80" max="100"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Sleep Hours</label><input type="number" id="wf-sleep" class="form-input" placeholder="7.5" min="0" max="12" step="0.5"/></div>
+        <div class="form-group"><label>Stress Level (0–100)</label><input type="number" id="wf-stress" class="form-input" placeholder="40" min="0" max="100"/></div>
+      </div>
+      <div class="form-group"><label>Notes (optional)</label><textarea class="form-input" rows="2" placeholder="How are you feeling today?"></textarea></div>
+      <div class="modal-footer">
+        <button class="modal-back-btn" onclick="backToChoice()">← Back</button>
+        <button class="modal-save-btn" onclick="saveEntry('wellness')">Save Data</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FAB: Center Add Button (mobile/overlay) -->
+<button class="fab-btn hidden" id="fab-btn" onclick="openModal()">+</button>
+
+<script src="js/app.js"></script>
+</body>
+</html>
