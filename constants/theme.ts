@@ -7,33 +7,24 @@ import { Platform } from 'react-native';
 ══════════════════════════════════════ */
 
 /* ── Brand Colors ── */
-export const Colors = {
-  /* App Background — deep purple-navy */
+export const DarkColors = {
   bg:       '#0C0A1A',
   surface:  '#141128',
   surface2: '#1C1838',
   border:   '#2C284A',
-
-  /* Semantic Health Colors */
-  green:  '#00CFA8',   // Recovery / Good (teal)
-  amber:  '#FF6B4A',   // Strain / Moderate (coral-orange)
-  red:    '#FF4D6A',   // Alert / Rest (pink-red)
-  blue:   '#7B6EF0',   // Sleep (indigo-violet)
-  purple: '#C084FC',   // REM / Secondary (bright violet)
-
-  /* Typography */
-  text:   '#F0EEFF',
-  muted:  '#484268',
-  muted2: '#8880A8',
-
-  /* Alpha variants */
+  green:    '#00CFA8',
+  amber:    '#FF6B4A',
+  red:      '#FF4D6A',
+  blue:     '#7B6EF0',
+  purple:   '#C084FC',
+  text:     '#F0EEFF',
+  muted:    '#484268',
+  muted2:   '#8880A8',
   greenDim:  'rgba(0,207,168,0.12)',
   amberDim:  'rgba(255,107,74,0.12)',
   redDim:    'rgba(255,77,106,0.12)',
   blueDim:   'rgba(123,110,240,0.12)',
   purpleDim: 'rgba(192,132,252,0.12)',
-
-  /* Legacy Expo theme compatibility */
   light: {
     text:           '#F0EEFF',
     background:     '#0C0A1A',
@@ -51,6 +42,45 @@ export const Colors = {
     tabIconSelected:'#00CFA8',
   },
 };
+
+export const LightColors = {
+  bg:       '#F4F3FA',
+  surface:  '#FFFFFF',
+  surface2: '#ECEAF6',
+  border:   '#DDD9F0',
+  green:    '#00A88A',
+  amber:    '#D85830',
+  red:      '#D03060',
+  blue:     '#5A50D0',
+  purple:   '#8850C8',
+  text:     '#0C0A1A',
+  muted:    '#B8B5D0',
+  muted2:   '#7A78A0',
+  greenDim:  'rgba(0,168,138,0.12)',
+  amberDim:  'rgba(216,88,48,0.12)',
+  redDim:    'rgba(208,48,96,0.12)',
+  blueDim:   'rgba(90,80,208,0.12)',
+  purpleDim: 'rgba(136,80,200,0.12)',
+  light: {
+    text:           '#0C0A1A',
+    background:     '#F4F3FA',
+    tint:           '#00A88A',
+    icon:           '#7A78A0',
+    tabIconDefault: '#B8B5D0',
+    tabIconSelected:'#00A88A',
+  },
+  dark: {
+    text:           '#0C0A1A',
+    background:     '#F4F3FA',
+    tint:           '#00A88A',
+    icon:           '#7A78A0',
+    tabIconDefault: '#B8B5D0',
+    tabIconSelected:'#00A88A',
+  },
+};
+
+/* Default export stays dark for backward compatibility */
+export const Colors = DarkColors;
 
 /* ── Spacing Scale ── */
 export const Spacing = {

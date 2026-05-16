@@ -2,28 +2,30 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import { Text } from 'react-native';
 import { HapticTab } from '@/components/haptic-tab';
-import { Colors } from '@/constants/theme';
+import { useColors } from '@/hooks/use-app-colors';
 
 function TabIcon({ emoji, active }: { emoji: string; active: boolean }) {
   return <Text style={{ fontSize: 20, opacity: active ? 1 : 0.4 }}>{emoji}</Text>;
 }
 
 export default function TabLayout() {
+  const C = useColors();
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarStyle: {
-          backgroundColor:  Colors.surface,
-          borderTopColor:   Colors.border,
+          backgroundColor:  C.surface,
+          borderTopColor:   C.border,
           borderTopWidth:   1,
           height:           82,
           paddingBottom:    22,
           paddingTop:       8,
         },
-        tabBarActiveTintColor:   Colors.green,
-        tabBarInactiveTintColor: Colors.muted,
+        tabBarActiveTintColor:   C.green,
+        tabBarInactiveTintColor: C.muted,
         tabBarShowLabel: false,
       }}
     >

@@ -5,24 +5,29 @@ import { DEFAULT_SNAPSHOT, PRESETS } from './simulator';
 type Preset = 'peak' | 'normal' | 'rest';
 
 interface DemoContextType {
-  data:        HealthSnapshot;
+  data:         HealthSnapshot;
   activePreset: Preset | null;
-  setData:     React.Dispatch<React.SetStateAction<HealthSnapshot>>;
-  applyPreset: (p: Preset) => void;
-  patchField:  (key: keyof HealthSnapshot, value: number) => void;
+  setData:      React.Dispatch<React.SetStateAction<HealthSnapshot>>;
+  applyPreset:  (p: Preset) => void;
+  patchField:   (key: keyof HealthSnapshot, value: number) => void;
+  isDark:       boolean;
+  toggleTheme:  () => void;
 }
 
 const DemoContext = createContext<DemoContextType>({
-  data:        DEFAULT_SNAPSHOT,
+  data:         DEFAULT_SNAPSHOT,
   activePreset: 'normal',
-  setData:     () => {},
-  applyPreset: () => {},
-  patchField:  () => {},
+  setData:      () => {},
+  applyPreset:  () => {},
+  patchField:   () => {},
+  isDark:       true,
+  toggleTheme:  () => {},
 });
 
 export function DemoProvider({ children }: { children: React.ReactNode }) {
   const [data, setData]           = useState<HealthSnapshot>(DEFAULT_SNAPSHOT);
   const [activePreset, setPreset] = useState<Preset | null>('normal');
+  const [isDark, setIsDark]       = useState(true);
 
   const applyPreset = (p: Preset) => {
     setData({ ...PRESETS[p] });
@@ -34,8 +39,10 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
     setPreset(null);
   };
 
+  const toggleTheme = () => setIsDark(prev => !prev);
+
   return (
-    <DemoContext.Provider value={{ data, activePreset, setData, applyPreset, patchField }}>
+    <DemoContext.Provider value={{ data, activePreset, setData, applyPreset, patchField, isDark, toggleTheme }}>
       {children}
     </DemoContext.Provider>
   );
